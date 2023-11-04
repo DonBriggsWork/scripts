@@ -1,0 +1,16 @@
+#!/bin/bash
+#
+# Set all proxy related environment variables to
+# enable process access.
+#
+
+export -n ALL_PROXY
+export -n HTTPS_PROXY
+export -n HTTP_PROXY
+export -n NO_PROXY
+export -n all_proxy
+export -n http_proxy
+export -n https_proxy
+export -n no_proxy
+
+printf "%bProxy Server Disabled\n\n"

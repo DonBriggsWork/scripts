@@ -1,0 +1,41 @@
+#!/bin/bash
+set -e
+export IFS='
+'
+
+rm /tmp/snaps_to_remove
+touch /tmp/snaps_to_remove
+
+echo "#Listing mounts ..."
+for f in $(df | awk "{ print \$6 }" | grep snap)
+do
+	echo "#$f"
+	echo $f >> /tmp/snaps_to_remove
+done
+echo "#done."; echo
+
+echo "#Unmounting ..."
+for item in `cat /tmp/snaps_to_remove`
+do
+	echo "sudo umount\"$item\""
+	#sudo umount "$item"
+done
+echo "#done."; echo
+
+
+echo "#Removing folders ..."
+for item in `cat /tmp/snaps_to_remove`
+do
+	echo "sudo rmdir \"$item\""
+	#sudo rmdir "$item"
+done
+echo "#done."; echo
+
+
+echo "#Removing files ..."
+for item in `cat /tmp/snaps_to_remove`
+do
+	echo "sudo rm /var/lib/snapd/snaps/`echo $item | sed 's/\/snap\///g' | sed 's/\//_/g'`.snap"
+	#sudo rm /var/lib/snapd/snaps/`echo $item | sed 's/\/snap\///g' | sed 's/\//_/g'`.snap
+done
+echo "#done."; echo

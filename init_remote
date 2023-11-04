@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# Perform "Don Init" of a remote Linux instance. ie, Linux login
+# files, script directory, set filepath, etc
+
+
+clear
+printf "                 Executing Don!-Init onf remote host\n"
+printf "======================================================================\n"
+mkdir /tmp/don_init_temp
+cp ($HOME)/.bash_aliases 
+
+echo -- Initializing Remote Application Directories
+ssh briggsd@ori08ld 'rm -rf /export/home/briggsd/www'
+rsync --exclude=.git* --exclude=.DS_Store --exclude=app/cache/* --exclude=app/logs/* --delete -avg -e ssh /Users/briggsd/Projects/irb/ ori08ld:/app001/www/briggsd/
+ssh briggsd@ori08ld '/export/home/briggsd/scripts/syperm'

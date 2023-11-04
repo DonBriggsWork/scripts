@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# From the days of Vanderbilt
+
+clear
+rsync --exclude Microsoft\ User\ Data --exclude irb_mapping -grv -e ssh /Users/briggsd/Documents ori08ld:/export/home/briggsd/backup/
+rsync -grv -e ssh /Users/briggsd/scripts ori08ld:/export/home/briggsd/backup/scripts/
+rsync -grv -e ssh /Users/briggsd/sql ori08ld:/export/home/briggsd/backup/sql/

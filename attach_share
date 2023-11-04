@@ -1,0 +1,34 @@
+#!/bin/bash
+
+# This script will attach a common .vdi virtual drive to a 
+# number number of VirtualBox VMs.
+
+clear
+
+printf "                Attaching Shared Volume\n"
+printf "======================================================\n"
+
+tgtDir="$HOME""/VirtualBoxStorage/SharedStorage/"
+volName="sharedDataVol.vdi"
+volFqn="$tgtDir""$volName"
+hostName="PuppetServer"
+
+if [[ -f "$volFqn" ]] ; then
+  printf "   Existing shared volume file found\n"
+else
+  printf "   Creating shared volume\n"
+  cmdStr="VBoxManage createhd --filename ""$volFqn"" --size 100 --variant Fixed"
+
+  printf "$cmdStr\n\n"
+
+  if
+  eval "$cmdStr"
+fi
+
+printf "\n"
+# Attach it to guest machines
+cmdStr="VBoxManage storageattach "\"$hostName\"" --storagectl \"SATA\" --port 2 --device 0 --type hdd --medium ""$volName"" --mtype shareable"
+
+printf "Command: $cmdStr\n"
+printf "\n"
+eval "$cmdStr"

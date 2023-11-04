@@ -1,0 +1,74 @@
+#!/bin/bash
+#Attempt to push ssk key
+
+# Note: All variables defined in this block are global
+keydir="$HOME""/.ssh/"
+keyname="id_rsa.pub"
+keyfqn="$keydir""$keyname"
+username='dbriggs'
+remhost='store.donbriggs.ninja'
+sshuid="$username"@"$remhost"
+aliasname="$sshuid"
+
+# Check if the key exists
+check_key () {
+    printf "    * Verifying Key: \n"
+    if [ ! -f "$keyfqn" ]; then
+        printf "      ERROR: Key file does not exist. Exiting"
+        exit 1
+    else
+        printf "      - Key found: $keyfqn""\n"
+    fi
+}
+
+# Set remote host
+set_host () {
+    default="$remhost"
+    if [ -n "$1" ]; then
+      remhost="$1"
+    else
+        read -p "    * Enter  target[$remhost]: " remhost
+        remhost=${remhost:-"$default"}    
+    fi
+    printf "    * Target: ""$remhost\n"
+}
+
+# Attempt to push key to remote host
+function push_key () {
+
+    cmdstring="cat ""$keyfqn"" | ssh -o \"StrictHostKeyChecking no\" ""$sshuid"" 'cat >> .ssh/authorized_keys'"
+    # printf "\n\n$cmdstring\n"
+
+    printf "    * Pushing Key\n"
+    eval "$cmdstring"
+    if [ $? -eq 0 ]; then
+        printf "        - SUCCESS: Pushed key to target host.\n"
+    else
+        printf "        - ERROR: Failed to push key to target host\n"
+        exit 1    
+    fi
+}
+
+# Create Bash alias, and add it to users .bash_aliases file
+create_alias () {
+    default="$aliasname"
+    printf  "    * Creatinng Bash alias to add to .bash_aliases\n"
+    read -p "         - Enter an alias name [$aliasname]: " aliasname
+    aliasname=${aliasname:-"$default"}
+    echo $aliasname
+
+    aliasstring="alias ""$aliasname""='ssh ""$sshuid'"
+    echo "$aliasstring" >> ~/.bash_aliases
+    printf "$aliasstring"
+}
+
+
+
+clear
+printf "\n                         Push Key\n"
+printf "============================================================\n"
+printf "    * Local/Rem UID: ""$username\n"
+set_host $1
+check_key
+push_key
+create_alias

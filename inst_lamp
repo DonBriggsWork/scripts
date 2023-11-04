@@ -1,0 +1,111 @@
+#!/bin/bash
+#
+# This script will install and configure the LAMP stack
+#
+
+#Update operating system
+clear
+printf "\n=================================================================================\n"
+printf "                            Updating Packages\n"
+printf "\n=================================================================================\n"
+sudo apt-get update -y && sudo apt-get dist-upgrade -y && sudo apt-get autoremove
+read -p "                          Press key to continue " -n1 -s
+
+#Install and configure Apache
+clear
+printf "\n=================================================================================\n"
+printf "                     Installing and Configuring Apache2 Server\n"
+printf "\n=================================================================================\n"
+printf "   - Installing Packages\n"
+sudo apt install -y apache2 apache2-utils
+
+printf "\n   - Opening ports in firewall\n"
+sudo iptables -I INPUT -p tcp --dport 80 -j ACCEPT
+sudo ufw allow http
+sudo ufw allow https
+
+printf "\n   - Setting Directory Permissions\n"
+sudo chown www-data:www-data /var/www/html/ -R
+
+
+printf "\n   - Configuring Services\n"
+sudo systemctl enable apache2
+sudo systemctl start apache2
+sudo a2enconf servername.conf
+sudo systemctl reload apache2
+
+clear
+printf "                              Apache Service Status\n"
+printf "\n=================================================================================\n"
+systemctl status apache2
+printf "\n"
+printf "\n=================================================================================\n"
+read -p "                          Press key to continue " -n1 -s
+
+
+#Install Mysql
+clear
+printf "\n=================================================================================\n"
+printf "                   Installing and Configuring Maria Database\n"
+printf "\n=================================================================================\n"
+printf "   - Installing Packages\n"
+sudo apt install -y mariadb-server mariadb-client
+
+printf "\n   - Configuring Services\n"
+sudo systemctl enable mariadb
+sudo systemctl start mariadb
+
+clear
+printf "\n   - Secure Configuration\n"
+sudo mysql_secure_installation
+
+clear
+printf "                              Maria DB Service Status\n"
+printf "\n=================================================================================\n"
+systemctl status mariadb
+printf "\n"
+printf "\n=================================================================================\n"
+read -p "                          Press key to continue " -n1 -s
+
+clear
+printf "                              Maria DB Client Login Test\n"
+printf "\n=================================================================================\n"
+sudo mariadb -u root
+printf "\n"
+printf "\n=================================================================================\n"
+read -p "                          Press key to continue " -n1 -s
+
+
+
+#Install php 8.1
+clear
+printf "\n=================================================================================\n"
+printf "                       Installing and Configuring PHP\n"
+printf "\n=================================================================================\n"
+printf "   - Installing Packages\n"
+sudo apt install -y php8.1 libapache2-mod-php8.1 php8.1-mysql php-common php8.1-cli php8.1-common php8.1-opcache 
+sudo apt install -y php8.1-readline php8.1-mbstring php8.1-xml php8.1-gd php8.1-curl
+
+printf "   - Enabling Apache PHP Modules\n"
+sudo a2enmod php8.1
+
+printf "   - Restarting Apache Server\n"
+sudo systemctl restart apache2
+
+clear
+printf "                              PHP CLI Information\n"
+printf "\n=================================================================================\n"
+php --version
+printf "\n"
+printf "\n=================================================================================\n"
+read -p "                          Press key to continue " -n1 -s
+
+clear
+printf "   - Creating phpinfo page\n"
+sudo echo "<?php phpinfo(); ?>" >  /var/www/html/info.php
+
+printf "                                phpinfo page\n"
+printf "\n=================================================================================\n"
+printf "  Info page available at: http://loalhost/phpinfo.php \n"
+printf "\n"
+printf "\n=================================================================================\n\n\n"

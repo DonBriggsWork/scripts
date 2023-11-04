@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# Bring NordVPN up or down
+
+clear
+printf "\n   Bringing VPN Up VPN\n=========================\n"
+#TODO: Add code check and process login
+ 
+nordvpn set technology nordlynx > /dev/null
+nordvpn set firewall enabled > /dev/null
+nordvpn set killswitch enabled > /dev/null
+nordvpn set notify enabled > /dev/null
+nordvpn set ipv6 disabled > /dev/null
+#nordvpn settings
+nordvpn connect
+nordvpn status

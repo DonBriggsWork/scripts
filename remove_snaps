@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# Remove SNAP support
+
+snap list
+sudo snap remove --purge firefox
+sudo snap remove --purge snap-store
+sudo snap remove --purge gnome-3-38-2004
+sudo apt remove --autoremove snapd
+sudo rm -rf snaps

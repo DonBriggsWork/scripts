@@ -1,0 +1,41 @@
+#!/bin/bash
+
+clear
+echo  Installing Magento
+
+echo    x Deleting old files and directory  
+sudo rm -rf /var/www/magento > /dev/null
+echo   x Creating new Magento directory  
+sudo mkdir /var/www/magento
+
+cd /var/www/magento
+echo   x Copying source archive file
+sudo cp /home/dbriggs/Downloads/magento/Magento-CE-2.2.3_sample_data-2018-02-23-11-56-17.tar.gz /var/www/magento/
+sudo chown -R www-data:www-data /var/www/magento/
+
+echo   x Extracting files from archive
+sudo tar xvzf Magento-CE-2.2.3_sample_data-2018-02-23-11-56-17.tar.gz > /dev/null
+
+echo   x Deleting archive file
+sudo rm -f /var/www/magento/Magento-CE-2.2.3-2018-02-23-10-26-06.tar.gz
+
+sudo mkdir /var/www/magento/var/page_cache
+
+echo   x Setting ownership and permissions
+echo x1
+sudo chown -R www-data:www-data /var/www/magento/  > /dev/null
+echo x2
+sudo chmod -R 775 /var/www/magento > /dev/null
+sudo chmod -R 775 /var/www/magento/var > /dev/null
+echo x3
+cd /var/www/magento
+find var generated pub/static pub/media app/etc -type f -exec sudo chmod u+w {} \;
+echo x4
+#find var generated pub/static pub/media app/etc -type d -exec sudo chmod u+w {} \;
+echo x5
+sudo chmod u+x bin/magento
+echo x6
+
+echo   x Restarting services
+sudo service mysql restart
+sudo service apache2 restart

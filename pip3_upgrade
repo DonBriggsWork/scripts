@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# Update all pip packages at once
+# From: https://simpleit.rocks/python/upgrade-all-pip-requirements-package-console-commands/
+
+pip list -o --format columns|  cut -d' ' -f1|xargs -n1 pip3 install -U

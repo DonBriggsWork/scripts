@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# logpurge
+# truncate all Linux logs and delete all backups
+
+printf "\nPurging logs and deleting backups\n"
+printf "==============================================\n\n"
+shopt -s globstar                       # if needed
+sudo truncate -s 0 /var/log/*.log       # first-level logs
+sudo truncate -s 0 /var/log/**/*.log    # nested folders, like /var/log/nginx/access.log
+sudo find /var/log -type f -name '*.[0-99].gz' -exec rm {} +

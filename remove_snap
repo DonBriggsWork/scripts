@@ -1,0 +1,14 @@
+#!/bin/bash
+# remove_snap Remove Snap support from Ubuntu
+# By: Don! Briggs <donbriggswork@gmail.com>
+
+clear
+printf "Removing Snap support from Ubuntu\n"
+sudo apt autoremove --purge snapd
+sudo rm -rf /var/cache/snapd/
+sudo rm -rf /snap
+sudo rm -rf /var/snap
+sudo rm -rf /var/lib/snapd
+sudo apt autoremove --purge gnome-software-plugin-snap
+rm -fr ~/snap
+sudo apt-mark hold snapd

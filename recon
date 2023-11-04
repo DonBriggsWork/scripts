@@ -1,0 +1,48 @@
+!/bin/bash
+
+clear
+printf "                    ROTATE\n"
+printf "==============================================\n"
+aws_profile="gtri-fed-service"
+#aws_profile="default"
+filename="$aws_profile""_output.txt"
+aws_clause="ec2 describe-instances"
+#aws_output="table"
+aws_out="json"
+aws_cmd="aws ""$aws_clause"" --profile ""$aws_profile"" --output=""$aws_out"
+
+# printf "Profile:""$aws_profile""\n"
+# printf "Clause: ""$aws_clause""\n"
+# printf "Command: ""$aws_cmd""\n"
+# printf "\n"
+# eval "$aws_cmd"
+
+printf "Rotating command through all profiles\n"
+#alias profiles='cat ~/.aws/credentials | grep -F [ | sort | sed s/[][]//g'
+profiles=()
+#my_array=( $(command) )
+profiles=( $(`cat ~/.aws/credentials | grep -F [ | sort | sed s/[][]//g`) )
+exit
+
+org_len=${org_array[@]}
+
+printf '%s\n' ""${org_array[@]}"
+printf "Array Size:"${#org_array[@]}"\n"
+printf"=========== Printing Profile Names ==========\n"
+#for ((i = 0; i < ${org_len}; i++)); do
+for ((i = 0; i < 1; i++)); do
+    echo ${org_array[i]}
+done
+
+
+#printf "\n\n\n\n\n"
+#
+#    aws_profile=${org_array[i]}
+#    aws_command="aws ""$aws_clause"" --profile ""$aws_profile"" --output=""$aws_out"
+#    printf "Profile:""$aws_profile""\n" 
+#    printf "Command: ""$aws_cmd""\n"
+#    printf "====================================================================\n\n"
+#    eval "$aws_cmd"
+#done
+
+

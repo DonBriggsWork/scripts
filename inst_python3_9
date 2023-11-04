@@ -1,0 +1,18 @@
+#!/bin/bash
+
+#-- This script will install Python 3.9, and configure the aliases
+#-- to handle multiple versions
+
+#-- Update cache and backup current sources list before beginning
+sudo apt update
+sudo cp /etc/apt/sources.list /etc/apt/sourceslist_$(date +"%Y%m%dT%H%M").bak
+
+#-- Install prerequisites
+sudo apt install -y software-properties-common
+
+#-- Add Repisitory
+sudo add-apt-repository -y ppa:deadsnakes/ppa
+sudo apt update
+
+#-- Install Python, display version
+sudo apt install -y python3.9

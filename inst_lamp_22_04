@@ -1,0 +1,63 @@
+#!/bin/bash
+# By Don! Briggs <DonBriggsWork@gmail.com>
+#
+# Install LAMP on Ubuntu 22.04
+
+function pause(){
+ read -s -n 1 -p "Press any key to continue . . ."
+ echo ""
+}
+
+
+#################  Main Block  ##################
+clear
+printf "\n"
+printf "======================================================\n"
+printf "                   INSTALL LAMP STACK\n"
+printf "======================================================\n"
+pause
+
+clear
+printf "\n -- Installing Apache\n"
+printf "_______________________________________________________\n\n"
+sudo apt install -y apache2 
+sudo ufw allow 80/tcp 
+sudo ufw allow 443/tcp
+sudo systemctl start apache2
+sudo systemctl enable apache2
+
+clear
+printf "\n -- Verify Apache Configuration\n"
+printf "_______________________________________________________\n\n"
+sudo systemctl status apache2
+pause
+
+clear
+printf "\n -- Installing PHP\n"
+printf "_______________________________________________________\n\n"
+sudo apt-get install php8.1 libapache2-mod-php8.1 php8.1-mysql php8.1-gd php8.1-curl php8.1-xml -y
+
+clear
+printf "\n -- Verify PHP Configuration\n"
+printf "_______________________________________________________\n\n"
+sudo php --version
+pause
+
+
+clear
+printf "\n -- Installing MySQL\n"
+printf "_______________________________________________________\n\n"
+sudo apt-get install -y mysql-server mysql-client
+sudo ystemctl start mysql
+sudo systemctl enable mysql
+
+clear
+printf "\n -- Verify MySQL Configuration\n"
+printf "_______________________________________________________\n\n"
+sudo systemctl status mysql
+pause
+
+clear
+printf "\n -- Secureing MySQL\n"
+printf "_______________________________________________________\n\n"
+sudo mysql_secure_installation

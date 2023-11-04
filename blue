@@ -1,0 +1,6 @@
+#!/bin/bash
+#
+printf "\nRestarting Bluetooth Services\n"
+sudo systemctl restart bluetooth.target
+sudo systemctl restart bluetooth.service
+printf "  -Done\n"

@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# This scrips will bring the wireless interface down, change
+# change the MAC on said interface, and then but it back up.
+
+wnic='wlp2s0'  # Name of target wireless NIC
+
+
+#TODO: Write code to verify iwconfig and macchanger are installed
+
+sudo ip link set down "$wnic"
+sudo macchanger -r "$wnic"
+sudo ip link set up "$wnic"

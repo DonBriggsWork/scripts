@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# This script will grab keys from the user's home and  Downloads 
+# directories, put them into the ~/.ssh directory, and change 
+# their permissions to 400.
+
+clear
+printf "Moving any downloaded SSH keys to $HOME/.ssh and locking down\n"
+KEYS=$(find "$HOME/Downloads/" -name "*.rsa" -or -name "*.pem")
+for key in $KEYS
+do
+    printf "  Moving: $key\n"    
+    sudo mv $key $HOME/.ssh/
+done
+sudo chown $USER:$USER $HOME/.ssh/*
+sudo chmod 0400 $HOME/.ssh/*

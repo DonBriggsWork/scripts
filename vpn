@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# vpn.sh
+# Control VPN. Install if not installed
+
+if ! nordvpn -v <nordvpn> &> /dev/null
+then
+    echo "<nordvpn> could not be found, attempting to inatall and configure."
+    sh <(curl -sSf https://downloads.nordcdn.com/apps/linux/install.sh)
+    
+    exit
+fi

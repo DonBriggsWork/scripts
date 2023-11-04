@@ -1,0 +1,12 @@
+#!/bin/bash
+sudo systemctl stop ssh.service
+sudo systemctl  ssh.service
+sudo apt-get remove --purge openssh-server -y
+
+sudo rm -rf ~/.ssh
+sudo apt-get install -y openssh-server
+
+sudo cp /etc/ssh/sshd_config /home/dbriggs/sshd_config.bak
+sudo cp /mnt/dbriggs/scripts/sshd_config.txt /etc/ssh/sshd_config
+sudo cat /etc/ssh/sshd_config
+sudo systemctl start ssh.service

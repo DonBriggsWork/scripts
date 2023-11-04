@@ -1,0 +1,28 @@
+#!/bin/bash
+#####################################################################
+#   assh   #   By: Don!Briggs   #         16-October-2023           #
+#####################################################################
+#  Lookup the IP address and KeyPair name of an AWS instance, and   #
+#  SSH to it. If the instance is is not running, it will be         #
+#  started. 
+#####################################################################
+
+#  aws ec2 describe-instances --output=text --query "Reservations[*].Instances[].[KeyName,InstanceId,PublicDnsName]"
+
+# RSA_KEY_DIR="$HOME/.ssh"
+# AWS_INSTANCE_NAME='web01'
+clear
+# Process positional params, if present
+
+if [[ -z $1 ]];
+then 
+    echo "No positional params parameter passed."
+else
+    echo "Parameter passed = $1"
+    export AWS_INSTANCE_NAME="$1"
+    AWS_INSTANCE_NAME="$1"
+    printenv AWS_INSTANCE_NAME 
+
+fi
+
+# aws ec2 describe-instances --output=text --query "Reservations[*].Instances[].[PublicDnsName]"

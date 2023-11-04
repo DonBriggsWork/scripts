@@ -1,0 +1,79 @@
+#!/bin/bash
+clear
+
+###############################################################
+# backupdb.sh                                 Rev: 13-May-2015
+# By: Don! Briggs <donbriggs@donbriggs.com>                   
+#
+# This script will perform a physical backup of the database
+# files for a MySql database. The Mysql service is stopped,
+# the MySql data files will be copied to a .tar file, and the
+# MySql service is started again.
+###############################################################
+
+dbFileLocation="/var/lib/mysql/"
+archiveDir="$HOME"/tq-backups
+sqlAdminPwd='root'
+scriptPath=$(dirname $BASH_SOURCE)/purgelogs.sql
+
+echo "      Beginning MySql Physical Backup"
+echo "==========================================="
+if [ ! -f "$scriptPath" ] ; then
+    echo "ERROR: Could not find purgelog.sql script. Aborting"
+    exit
+fi
+echo "  - Purging MySql Logs"
+mysql -u root -p"$sqlAdminPwd" < "$scriptPath"
+
+#---Make backup directory, if it does not exist
+if [ ! -d "$archiveDir" ] ; then
+    echo "  - Creating backup directory: ""$archiveDir"
+    mkdir -p "$archiveDir"
+    if [ "$?" != "0" ] ; then
+        echo "ERROR: Could not create backup directory. Aborting"
+        exit
+    fi
+else
+    echo "  - Archive Directory: ""$archiveDir"
+fi
+
+#---Delete everything except the latest backup in directory
+cd "$archiveDir"
+newestFile=$(ls -td --ignore *.tar.gz | head -1)
+
+if [[ ("$newestFile" != "") && ("$newestFile" != ".") ]]; then
+    #Found a latest backup. Delete all other backups
+    echo "  - Saving latest backup: ""$newestFile"
+    mv "$newestFile" "$newestFile".sav
+    if [ "$?" != "0" ] ; then
+        echo "ERROR: Could not save latest backup file. Aborting"
+        exit
+    fi
+    rm *.tar.gz
+    mv "$newestFile".sav "$newestFile"
+else
+    echo "  - No old backups found"
+fi
+
+#--- Stop Mysql Server, copy files, restart server, as quickly as possible
+echo "  - Stopping MySql Server"
+service mysql stop > /dev/null
+echo "  - Arciving MySql physical data files"
+tar czvf "tq-backup-"$(date +"%Y-%m-%d_%H-%M-%S")".tar.gz" "$dbFileLocation" > /dev/null
+echo "  - Starting MySql Server"
+service mysql start > /dev/null
+echo "  - Done!"
+
+
+
+
+
+
+
+
+
+
+
+
+
+

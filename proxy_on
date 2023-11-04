@@ -1,0 +1,16 @@
+#!/bin/bash
+#
+# Set all proxy related environment variables to
+# enable proxy access.
+#
+
+export ALL_PROXY="http://192.168.49.1:9099"
+export HTTPS_PROXY="https://192.168.49.1:9099"
+export HTTP_PROXY="http://192.168.49.1:9099"
+#proxexport NO_PROXY="http://192.168.49.1:9099"
+export all_proxy="http://192.168.49.1:9099"
+export http_proxy="http://192.168.49.1:9099"
+export https_proxy="https://192.168.49.1:9099"
+export no_proxy
+
+printf "%bProxy Server Enabled\n\n"

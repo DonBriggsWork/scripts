@@ -1,0 +1,10 @@
+#!/bin/bash
+#
+# This script will install harware monitoring utilites, and display their
+# output in the top status bar.
+#
+clear
+printf "Installing harware sensors\n"
+sudo apt-get install -y lm-sensors hddtemp fancontrol psensor
+sudo service kmod start
+

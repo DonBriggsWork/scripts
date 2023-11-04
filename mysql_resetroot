@@ -1,0 +1,18 @@
+#!/bin/bash
+#
+#  mysql_resetroot		By: Don! Briggs		<donbriggs@gmail.com>
+#
+# Reset root user password to "root'. Used when you can't login
+# to mysql without 'sudo'.
+
+#mysql -u [username] -p somedb < somedb.sql
+
+
+clear
+print "   Reset MySQL Root User Password\n"
+print "=========================================\n"  
+sudo mysql -u root -p mysql DROP USER 'root'@'localhost';
+sudo mysql -u root -p mysql CREATE USER 'root'@'localhost' IDENTIFIED BY 'root';
+sudo mysql -u root -p mysqlGRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost' WITH GRANT OPTION;sudo mysql -u root -p mysql 
+sudo mysql -u root -p mysql FLUSH PRIVILEGES;
+printf "  - Password for MySQL 'root' user has been set to 'root'\n"

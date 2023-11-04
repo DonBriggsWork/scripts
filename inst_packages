@@ -1,0 +1,61 @@
+#!/bin/bash
+#
+# Install packages to bring base configuration to operational level
+#
+clear
+printf "      Installing Operational Packages\n"
+printf "===========================================\n"
+
+printf "  - Installing Linux Utils\n"
+sudo apt-get install -y synaptic
+sudo apt-get install -y gparted
+sudo apt-get install -y tasksel
+sudo apt-get install -y wget
+sudo apt-get install -y curl
+sudo apt-get install -y keychain
+sudo apt-get install -y git
+
+
+printf "  - Installing Gnome-ish Stuff\n"
+sudo apr-get install -y gnome-disk-utility
+sudo apt-get install -y blackbird-gtk-theme
+sudo apt-get install -y gnome-tweaks
+sudo apt-get install -y nautilus-dropbox
+#sudo apt-get install -y gnome-tweak-tool gnome-shell-extensions dconf-editor gnome-weather kupfer
+
+
+printf "  - Installing Various Applications\n"
+sudo apt-get install -y bleachbit
+sudo apt update
+sudo apt install dirmngr gnupg apt-transport-https ca-certificates software-properties-common
+sudo add-apt-repository "deb https://download.sublimetext.com/ apt/stable/"
+sudo apt install -y sublime-text
+# sudo snap install multipass
+sudo apt-get install -y vlc
+
+printf "  - Installing Support Libraries (Python, jdk, etc)\n"
+# sudo apt-get install -y python3-pip
+# sudo apt-get install -y openjdk-11-jdk
+
+printf "  - Installing Techie Stuff (Virtual Box, Grub-Edit, etc)\n"
+sudo add-apt-repository ppa:danielrichter2007/grub-customizer
+sudo apt-get update
+sudo apt-get install grub-customizer
+# sudo apt-get install virtualbox
+
+# printf "  - Installing Development Support ()\n"
+# sudo apt-get install apache2 -y
+# sudo apt-get install -y php
+# sudo apt-get install -y phpunit
+# php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+
+printf "  - Installing Media Applications ()\n"
+sudo apt-get install -y ffmpeg
+sudo apt-get install -y avconv
+#sudo apt-get install -f ./python3-tartube_2.3.332.deb 
+
+
+#sudo apt install -y pm-utils hibernate
+#sudo apt install -y pm-hibernate
+#sudo apt install -y pm-utils
+#sudo apt install -y pm-hibernate

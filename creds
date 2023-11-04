@@ -1,0 +1,11 @@
+#!/bin/bash
+clear
+ary_profiles=()
+#shell_cmd="'cat ~/.aws/credentials | grep -F [ | sort | sed s/[][]//g'"
+shell_cmd="'cat ~/.aws/credentials_test | grep -F [ | sort | sed s/[][]//g'"
+printf "Command: ""$shell_cmd""\n"
+printf "=========================================================================\n"
+ary_profiles=eval "$shell_cmd"
+
+#printf '%s\n' "${ary_profiles[@]}"
+# printf "\n"
