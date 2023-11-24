@@ -1,9 +1,9 @@
 #!/bin/bash
 ##################################################################
-#       net         #   By: Don! Briggs   #   04-April-2019      #
+#  net-tether         #   By: Don! Briggs   #   04-April-2019    #
 ##################################################################
 #    Initialize easytether client
 ##################################################################
+
 sudo easytether-usb
 sudo systemctl restart systemd-networkd
-

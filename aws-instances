@@ -1,5 +1,12 @@
 #!/bin/bash
 
+##################################################################### 
+# aws-instances      #   By: Don! Briggs <DonBriggsWork@gmail.com>  #
+#####################################################################
+# Iterate through all of the the AWS accounts in the 
+# '~/.aws/credentials' file and list their instances
+# 
+
 clear
 printf "Query all AWS accounts in the credentials file for their instances\n"
 for profile in `cat ~/.aws/credentials | grep -F [ | sort | sed s/[][]//g`

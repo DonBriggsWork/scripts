@@ -1,12 +1,13 @@
 #!/bin/bash
-#
-#  mysql_resetroot		By: Don! Briggs		<donbriggs@gmail.com>
+#####################################################################
+# mysql_resetroot               ##         Initial Rev: 01-May-2022 #
+# By: Don! Briggs <donbriggs@donbriggs.com>                         #                  
+######################################################################
 #
 # Reset root user password to "root'. Used when you can't login
 # to mysql without 'sudo'.
 
 #mysql -u [username] -p somedb < somedb.sql
-
 
 clear
 print "   Reset MySQL Root User Password\n"

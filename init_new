@@ -17,6 +17,7 @@ sudo apt install gnome-disk-utility -y
 sudo apt-get install -y openssh-server openssh-client
 sudo apt-get install -y atop htop
 sudo apt-get install -y curl
+sudo apt install -y tldr
 
 printf "\n\n  -- Installing Programs\n"
 printf "=============================================================\n"

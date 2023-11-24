@@ -1,111 +1,109 @@
 #!/bin/bash
+
 #
-# This script will install and configure the LAMP stack
+# inst_lamp      | By Don! Briggs <DonBriggsWork@gmail.com>
 #
+# Install, configure and verify LAMP stack on Ubuntu 22.xx or newer,
+# with some intelligence. 
 
-#Update operating system
+distro='ubuntu'     # Set name of Linux distrobution. (Initially only Ubuntu)
+srvname='apache2'   # Package name for web server (apache, apache2, httpd, etc.)
+dbname='mariadb'    # Package name for database server (mysql, mariadb, etc.)
+phpname='php'       # Package name for PHP
+
+#################  Function Block  ##################
+
+function pause(){
+    printf "\n"
+    read -r -s -n 1 -p "    Press any key to continue . . ."
+    echo ""
+}
+ 
+function pkgIsInstalled(){
+
+
+    # Print error and exit if no param passed
+    if [ -z $1 ]
+    then
+        printf "\ERROR: pkgIsInstalled - No Package Name passed\n\n"
+        exit 250
+    fi
+
+    # Set global variable indicating if pasckage is installed
+    if ! command -v $1 &> /dev/null
+    then
+        isInstalled=
+        echo "$1 could not be found"
+        # exit 1
+    else
+        isInstalled='true'
+        echo "$1 LOCATED!!!"
+    fi
+
+}
+
+function showBanner() {
+    clear
+    printf "\n"
+    printf %90s |tr " " "=" 
+    printf "\n                                 INSTALL LAMP STACK\n"
+    printf %90s |tr " " "=" 
+    printf "\n"
+    printf "  This script will install and configure all components of the LAMP stack.\n"
+    pause
+}
+
+#################  Main Block  ##################
+showBanner
+
 clear
-printf "\n=================================================================================\n"
-printf "                            Updating Packages\n"
-printf "\n=================================================================================\n"
-sudo apt-get update -y && sudo apt-get dist-upgrade -y && sudo apt-get autoremove
-read -p "                          Press key to continue " -n1 -s
-
-#Install and configure Apache
-clear
-printf "\n=================================================================================\n"
-printf "                     Installing and Configuring Apache2 Server\n"
-printf "\n=================================================================================\n"
-printf "   - Installing Packages\n"
-sudo apt install -y apache2 apache2-utils
-
-printf "\n   - Opening ports in firewall\n"
-sudo iptables -I INPUT -p tcp --dport 80 -j ACCEPT
-sudo ufw allow http
-sudo ufw allow https
-
-printf "\n   - Setting Directory Permissions\n"
-sudo chown www-data:www-data /var/www/html/ -R
-
-
-printf "\n   - Configuring Services\n"
-sudo systemctl enable apache2
+printf "\n -- Installing Apache\n"
+printf "_______________________________________________________\n\n"
+# pkgIsInstalled $srvname
+sudo apt install -y apache2 
+sudo ufw allow 80/tcp 
+sudo ufw allow 443/tcp
 sudo systemctl start apache2
-sudo a2enconf servername.conf
-sudo systemctl reload apache2
+sudo systemctl enable apache2
+clear
+printf "\n -- Verify Apache Configuration\n"
+printf "_______________________________________________________\n\n"
+sudo systemctl status apache2
+pause
 
 clear
-printf "                              Apache Service Status\n"
-printf "\n=================================================================================\n"
-systemctl status apache2
-printf "\n"
-printf "\n=================================================================================\n"
-read -p "                          Press key to continue " -n1 -s
-
-
-#Install Mysql
-clear
-printf "\n=================================================================================\n"
-printf "                   Installing and Configuring Maria Database\n"
-printf "\n=================================================================================\n"
-printf "   - Installing Packages\n"
-sudo apt install -y mariadb-server mariadb-client
-
-printf "\n   - Configuring Services\n"
-sudo systemctl enable mariadb
-sudo systemctl start mariadb
+printf "\n -- Installing PHP\n"
+printf "_______________________________________________________\n\n"
+sudo apt install -y php
+sudo apt install -y php-xml 
+sudo apt install -y php-curl
 
 clear
-printf "\n   - Secure Configuration\n"
+wwwpwrms
+cat '<?php phpinfo(); ?>' > /var/www/html/phpinfo.php
+pause
+printf "\n -- Verify PHP Configuration\n"
+printf "_______________________________________________________\n\n"
+sudo php --version
+pause
+
+
+clear
+printf "\n -- Installing MariaDB\n"
+printf "_______________________________________________________\n\n"
+sudo apt install -y mariadb-server
+printf "\n -- Verify MariaDB Configuration\n"
+printf "_______________________________________________________\n\n"
+sudo systemctl status mariadb
+pause
+
+clear
+printf "\n -- Secureing MySQL\n"
+printf "_______________________________________________________\n\n"
 sudo mysql_secure_installation
 
 clear
-printf "                              Maria DB Service Status\n"
-printf "\n=================================================================================\n"
-systemctl status mariadb
-printf "\n"
-printf "\n=================================================================================\n"
-read -p "                          Press key to continue " -n1 -s
+printf "\n -- Configuring Laravel via Composer\n"
+printf "_______________________________________________________\n\n"
 
-clear
-printf "                              Maria DB Client Login Test\n"
-printf "\n=================================================================================\n"
-sudo mariadb -u root
-printf "\n"
-printf "\n=================================================================================\n"
-read -p "                          Press key to continue " -n1 -s
-
-
-
-#Install php 8.1
-clear
-printf "\n=================================================================================\n"
-printf "                       Installing and Configuring PHP\n"
-printf "\n=================================================================================\n"
-printf "   - Installing Packages\n"
-sudo apt install -y php8.1 libapache2-mod-php8.1 php8.1-mysql php-common php8.1-cli php8.1-common php8.1-opcache 
-sudo apt install -y php8.1-readline php8.1-mbstring php8.1-xml php8.1-gd php8.1-curl
-
-printf "   - Enabling Apache PHP Modules\n"
-sudo a2enmod php8.1
-
-printf "   - Restarting Apache Server\n"
-sudo systemctl restart apache2
-
-clear
-printf "                              PHP CLI Information\n"
-printf "\n=================================================================================\n"
-php --version
-printf "\n"
-printf "\n=================================================================================\n"
-read -p "                          Press key to continue " -n1 -s
-
-clear
-printf "   - Creating phpinfo page\n"
-sudo echo "<?php phpinfo(); ?>" >  /var/www/html/info.php
-
-printf "                                phpinfo page\n"
-printf "\n=================================================================================\n"
-printf "  Info page available at: http://loalhost/phpinfo.php \n"
-printf "\n"
-printf "\n=================================================================================\n\n\n"
+composer create-project laravel/laravel dev

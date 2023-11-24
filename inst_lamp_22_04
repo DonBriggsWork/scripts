@@ -1,13 +1,16 @@
 #!/bin/bash
+
 # By Don! Briggs <DonBriggsWork@gmail.com>
 #
 # Install LAMP on Ubuntu 22.04
+# stack
+
 
 function pause(){
- read -s -n 1 -p "Press any key to continue . . ."
- echo ""
+    read -r -s -n 1 -p "Press any key to continue . . ."
+    echo ""
 }
-
+ 
 
 #################  Main Block  ##################
 clear

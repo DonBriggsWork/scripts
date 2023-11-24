@@ -1,21 +1,22 @@
 #!/bin/bash
-clear
 
-###############################################################
-# backupdb.sh                                 Rev: 13-May-2015
-# By: Don! Briggs <donbriggs@donbriggs.com>                   
+#####################################################################
+# backupdb                      ##         Initial Rev: 13-May-2015 #
+# By: Don! Briggs <donbriggs@donbriggs.com>                         # 
+#####################################################################
 #
 # This script will perform a physical backup of the database
 # files for a MySql database. The Mysql service is stopped,
-# the MySql data files will be copied to a .tar file, and the
+# the MySql data files will be archived to a .tar file, and the
 # MySql service is started again.
-###############################################################
+#####################################################################
 
 dbFileLocation="/var/lib/mysql/"
 archiveDir="$HOME"/tq-backups
 sqlAdminPwd='root'
 scriptPath=$(dirname $BASH_SOURCE)/purgelogs.sql
 
+clear
 echo "      Beginning MySql Physical Backup"
 echo "==========================================="
 if [ ! -f "$scriptPath" ] ; then

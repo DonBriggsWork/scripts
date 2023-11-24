@@ -1,4 +1,12 @@
 #!/bin/bash
+#####################################################################
+# snaps-kill                    ##         Initial Rev: 01-Mar-2023 #
+# By: Don! Briggs <donbriggs@donbriggs.com>                         #                  
+#####################################################################
+#
+# Remove Snap support from Ubuntu
+#
+
 set -e
 export IFS='
 '

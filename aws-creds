@@ -1,0 +1,19 @@
+#!/bin/bash
+#####################################################################
+# aws-cred                      ##         Initial Rev: 01-Mar-2022 #
+# By: Don! Briggs <donbriggs@donbriggs.com>                         #                  
+#####################################################################
+# Loop thrrough the user's AWS creds file (~/.aws/credentials) and
+# print a list of available profiles contained therein.
+#
+
+clear
+ary_profiles=()
+#shell_cmd="'cat ~/.aws/credentials | grep -F [ | sort | sed s/[][]//g'"
+shell_cmd="'cat ~/.aws/credentials_test | grep -F [ | sort | sed s/[][]//g'"
+printf "Command: ""$shell_cmd""\n"
+printf "=========================================================================\n"
+ary_profiles=eval "$shell_cmd"
+
+#printf '%s\n' "${ary_profiles[@]}"
+# printf "\n"

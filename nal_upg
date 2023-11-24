@@ -1,0 +1,14 @@
+#!/bin/bash
+# By: Don! Briggs <donbriggswork@gmail.com>
+# nal_upg
+#
+#
+# Perform full update andf up[grade usinf Nala, and follow with cleanup.
+
+clear
+printf "\nPerforming Full NALA Upgrade\n"
+printf "=================================================================\n"
+sudo nala update
+sudo nala upgrade -y
+sudo nala autopurge
+sudo nala autoremove

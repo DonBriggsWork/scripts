@@ -1,5 +1,14 @@
 #!/bin/bash
 #
+#####################################################################
+# blue                         ##         Initial Rev: 01-jan-2022  #
+# By: Don! Briggs <donbriggs@donbriggs.com>                         #                  
+#####################################################################
+#
+# Resrart blootooth services via 'systemctl'. Sometimes useful for 
+# resolving bluetopth issues that Linux is plagued with.
+#####################################################################
+
 printf "\nRestarting Bluetooth Services\n"
 sudo systemctl restart bluetooth.target
 sudo systemctl restart bluetooth.service
