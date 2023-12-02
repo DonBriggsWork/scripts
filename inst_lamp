@@ -4,7 +4,7 @@
 # inst_lamp      | By Don! Briggs <DonBriggsWork@gmail.com>
 #
 # Install, configure and verify LAMP stack on Ubuntu 22.xx or newer,
-# with some intelligence. 
+# with some intelligence.
 
 distro='ubuntu'     # Set name of Linux distrobution. (Initially only Ubuntu)
 srvname='apache2'   # Package name for web server (apache, apache2, httpd, etc.)
@@ -13,14 +13,27 @@ phpname='php'       # Package name for PHP
 
 #################  Function Block  ##################
 
+#
+# shellcheck disable=SC2120
 function pause(){
+
+    if [[ -z $1 ]];
+        then
+            # echo "No positional params parameter passed."
+            msg="    Press any key to continue . . ."
+        else
+            echo "Parameter passed = $1"
+            msg="$1"
+
+    fi
+
+
     printf "\n"
-    read -r -s -n 1 -p "    Press any key to continue . . ."
+    read -r -s -n 1 -p "$msg"
     echo ""
 }
- 
-function pkgIsInstalled(){
 
+function pkgIsInstalled(){
 
     # Print error and exit if no param passed
     if [ -z $1 ]
@@ -45,9 +58,9 @@ function pkgIsInstalled(){
 function showBanner() {
     clear
     printf "\n"
-    printf %90s |tr " " "=" 
+    printf %90s |tr " " "="
     printf "\n                                 INSTALL LAMP STACK\n"
-    printf %90s |tr " " "=" 
+    printf %90s |tr " " "="
     printf "\n"
     printf "  This script will install and configure all components of the LAMP stack.\n"
     pause
@@ -60,8 +73,10 @@ clear
 printf "\n -- Installing Apache\n"
 printf "_______________________________________________________\n\n"
 # pkgIsInstalled $srvname
-sudo apt install -y apache2 
-sudo ufw allow 80/tcp 
+sudo apt install -y apache2
+sudo a2enmod ssl
+sudo rewrite
+sudo ufw allow 80/tcp
 sudo ufw allow 443/tcp
 sudo systemctl start apache2
 sudo systemctl enable apache2
@@ -75,8 +90,10 @@ clear
 printf "\n -- Installing PHP\n"
 printf "_______________________________________________________\n\n"
 sudo apt install -y php
-sudo apt install -y php-xml 
+sudo apt install -y php-xml
 sudo apt install -y php-curl
+sudo apt install -y php-mysql
+sudo apt install -y php-mariadb-mysql-kbs
 
 clear
 wwwpwrms
@@ -91,7 +108,7 @@ pause
 clear
 printf "\n -- Installing MariaDB\n"
 printf "_______________________________________________________\n\n"
-sudo apt install -y mariadb-server
+sudo apt install -y mariadb-server mariadb-client
 printf "\n -- Verify MariaDB Configuration\n"
 printf "_______________________________________________________\n\n"
 sudo systemctl status mariadb

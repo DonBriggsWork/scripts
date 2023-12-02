@@ -4,17 +4,17 @@
 #
 #  Manage the Nord VPN. I it is not installed. This scrip will attempt to
 #  easily manage Nord VPN installation and status.-
-
+#
 #
 # Control VPN. Install if not installed
 
-# if ! nordvpn -v <nordvpn> &> /dev/null
-# then
-#     echo "<nordvpn> could not be found, attempting to inatall and configure."
-#     sh <(curl -sSf https://downloads.nordcdn.com/apps/linux/install.sh)
+if ! nordvpn -v <nordvpn> &> /dev/null
+then
+    echo "<nordvpn> could not be found, attempting to inatall and configure."
+    sh <(curl -sSf https://downloads.nordcdn.com/apps/linux/install.sh)
     
-#     exit
-# fi
+    exit
+fi
 
 clear
 printf "  VPN Contol\n"
