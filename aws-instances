@@ -3,16 +3,24 @@
 ##################################################################### 
 # aws-instances      #   By: Don! Briggs <DonBriggsWork@gmail.com>  #
 #####################################################################
-# Iterate through all of the the AWS accounts in the 
-# '~/.aws/credentials' file and list their instances
-# 
+# Return list of instances, public-ip, and run states for all
+# instances, or for an instance whos name is passed
+#
 
 clear
-printf "Query all AWS accounts in the credentials file for their instances\n"
-for profile in `cat ~/.aws/credentials | grep -F [ | sort | sed s/[][]//g`
-do
-  printf "querying: "$profile     "
-  aws ec2 describe-instances --profile $profile > ~/recon/instances_$profile.json
-  printf "  (Output: ~/recon/instances_"$profile".json)\n"
-done
-printf "Done\n\n"
+aws ec2 describe-instances \
+   --output json \
+   --query "Reservations[*].Instances[*]"
+
+    # --query "Reservations[*].Instances[*]" \
+    # --output json
+
+
+
+# aws ec2 describe-vpcs \
+#   --query "Vpcs[*].[State]" \
+#   --query "Reservations[*].Instances[*].[ImageId,InstanceType] " \
+
+  # --filters "Name=tag:Name,Values=wgtmp-ubu" \
+  # --query "Instances[*]" \
+

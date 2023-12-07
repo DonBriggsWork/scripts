@@ -1,118 +1,46 @@
 #!/bin/bash
 
 #
-# inst_lamp      | By Don! Briggs <DonBriggsWork@gmail.com>
+# inst_lamp             | By Don! Briggs <DonBriggsWork@gmail.com>
 #
-# Install, configure and verify LAMP stack on Ubuntu 22.xx or newer,
-# with some intelligence.
+# Install, configure and verify LAMP stack on Ubuntu 22.xx or newer.
+#
 
 distro='ubuntu'     # Set name of Linux distrobution. (Initially only Ubuntu)
 srvname='apache2'   # Package name for web server (apache, apache2, httpd, etc.)
 dbname='mariadb'    # Package name for database server (mysql, mariadb, etc.)
 phpname='php'       # Package name for PHP
 
-#################  Function Block  ##################
-
-#
-# shellcheck disable=SC2120
-function pause(){
-
-    if [[ -z $1 ]];
-        then
-            # echo "No positional params parameter passed."
-            msg="    Press any key to continue . . ."
-        else
-            echo "Parameter passed = $1"
-            msg="$1"
-
-    fi
-
-
-    printf "\n"
-    read -r -s -n 1 -p "$msg"
-    echo ""
-}
-
-function pkgIsInstalled(){
-
-    # Print error and exit if no param passed
-    if [ -z $1 ]
-    then
-        printf "\ERROR: pkgIsInstalled - No Package Name passed\n\n"
-        exit 250
-    fi
-
-    # Set global variable indicating if pasckage is installed
-    if ! command -v $1 &> /dev/null
-    then
-        isInstalled=
-        echo "$1 could not be found"
-        # exit 1
-    else
-        isInstalled='true'
-        echo "$1 LOCATED!!!"
-    fi
-
-}
-
-function showBanner() {
-    clear
-    printf "\n"
-    printf %90s |tr " " "="
-    printf "\n                                 INSTALL LAMP STACK\n"
-    printf %90s |tr " " "="
-    printf "\n"
-    printf "  This script will install and configure all components of the LAMP stack.\n"
-    pause
-}
-
-#################  Main Block  ##################
-showBanner
-
 clear
-printf "\n -- Installing Apache\n"
-printf "_______________________________________________________\n\n"
-# pkgIsInstalled $srvname
+printf "                Installing LAMP stack\n"
+printf "_______________________________________________________\n"
 sudo apt install -y apache2
+sudo apt install -y npm
+
 sudo a2enmod ssl
 sudo rewrite
 sudo ufw allow 80/tcp
 sudo ufw allow 443/tcp
 sudo systemctl start apache2
 sudo systemctl enable apache2
-clear
-printf "\n -- Verify Apache Configuration\n"
-printf "_______________________________________________________\n\n"
-sudo systemctl status apache2
-pause
 
-clear
-printf "\n -- Installing PHP\n"
-printf "_______________________________________________________\n\n"
-sudo apt install -y php
-sudo apt install -y php-xml
-sudo apt install -y php-curl
-sudo apt install -y php-mysql
-sudo apt install -y php-mariadb-mysql-kbs
+sudo apt install -y "$phpname"
+sudo apt install -y "$phpname"-xml
+sudo apt install -y "$phpname"-curl
+sudo apt install -y "$phpname"-mysql
+sudo apt install -y "$phpname"-mariadb-mysql-kbs
 
-clear
-wwwpwrms
-cat '<?php phpinfo(); ?>' > /var/www/html/phpinfo.php
-pause
-printf "\n -- Verify PHP Configuration\n"
-printf "_______________________________________________________\n\n"
-sudo php --version
-pause
+if test -f .wwwperms; then
+    ./wwwperms > /dev/null
+    echo "<?php phpinfo(); ?>" > /var/www/html/phpinfo.php
+fi
+sudo ln -s /var/www ~/www
 
-
-clear
-printf "\n -- Installing MariaDB\n"
-printf "_______________________________________________________\n\n"
-sudo apt install -y mariadb-server mariadb-client
-printf "\n -- Verify MariaDB Configuration\n"
-printf "_______________________________________________________\n\n"
-sudo systemctl status mariadb
-pause
+sudo apt install -y "$dbname"-server
+sudo apt install -y "$dbname"-client
+sudo systemctl start "$dbname"
+sudo systemctl enable "$dbname"
+sudo systemctl restart apache2
 
 clear
 printf "\n -- Secureing MySQL\n"
@@ -123,4 +51,4 @@ clear
 printf "\n -- Configuring Laravel via Composer\n"
 printf "_______________________________________________________\n\n"
 
-composer create-project laravel/laravel dev
+# composer create-project laravel/laravel dev

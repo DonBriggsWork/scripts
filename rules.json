@@ -1,0 +1,24 @@
+{
+    "rules":[
+        {
+            "field":"sender",
+            "comparison":"contains",
+            "data":["@trueconnect.com", "ManitouArtCenter@"],
+            "action":"delete",
+            "description":"Delete some junk emails"
+        },
+        {
+            "field":"sender",
+            "comparison":"contains",
+            "data":"@accounts.google.com",
+            "action":"delete"
+        },        
+        {
+            "field":"subject",
+            "comparison":"contains",
+            "data":["hybrid", "onsite", "on site"],
+            "action":"delete"    
+        }
+    ]
+
+}

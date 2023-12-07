@@ -24,8 +24,9 @@ function pause(){
 
 clear
 printf "                  Ripping out LAMP\n"
-printf "============================================================\n\n"
-pause
+printf "============================================================\n"
+cd "$HOME" ||exit 100
+
 
 # Rip out Maria
 sudo apt remove -y --purge maria*
@@ -38,17 +39,18 @@ sudo apt remove -y --purge php*
 sudo apt remove -y --purge apache*
 
 # Rip misc stuff
-sudo rm -rf /home/dbriggs/.cache
+
 sudo rm -rf /usr/bin/mysql_secure-installation
 sudo rm -rf /var/log/php*
 sudo rm -rf /var/log apache*
+sudo unlink ~/www
 sudo rm -rf /var/www
 sudo apt autoremove -y
+sudo rm -rf /home/dbriggs/.cache
 
-clear
-printf " * Checking for survivors\n"
-pause
-sudo find / -name maria*
-sudo find / -name mysql*
-sudo find / -name apache*
-sudo find / -name php*
+# clear
+# printf " * Checking for survivors\n"
+# sudo find / -name maria*
+# sudo find / -name mysql*
+# sudo find / -name apache*
+# sudo find / -name php*

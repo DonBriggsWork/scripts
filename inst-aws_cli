@@ -1,0 +1,21 @@
+#!/bin/bash
+#
+# inst_aws-cli
+#################################################################
+# By: Don! Briggs <donbriggswork@gmail.com>            2023-12-03
+#
+# Install Don! AWS Command Line interface on Ubuntu
+#
+
+clear
+printf "Install AWS CLI\n"
+printf "=============================================================\n"
+
+printf "  * Removing previous version\n"
+sudo apt remove -y awscli > /dev/null
+printf "  * Downloading current version\n"
+cd "$HOME/Downloads"
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" > /dev/null
+
+unzip awscliv2.zip
+sudo ./aws/install

@@ -1,0 +1,12 @@
+#!/bin/bash
+
+#################################################################################### 
+# aws-run                                                               2023-12-04 #
+# By: Don! Briggs <DonBriggsWork@gmail.com>                                        #
+####################################################################################
+# Run a CLI command, or script, on an AWS Linux instance via ssh                   #
+# usage: aws-run <hostname> <command-string>                                       #
+# Ref: https://www.cyberciti.biz/tips/linux-running-commands-on-a-remote-host.html #
+#
+# ssh [USER-NAME]@[REMOTE-HOST] command or script
+
