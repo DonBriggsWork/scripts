@@ -1,0 +1,127 @@
+#!/bin/bash
+
+#
+# init-environment            | By Don! Briggs <DonBriggsWork@gmail.com>
+#
+# This script will configure the Ubuntu 22.xx server as a ready to to
+# LAMP/Laravel server runnting Ubuntu 23.10. Specifically, it will do the
+# following:
+#
+#   - Installs a .bash_aliases file
+#   - Installs a new .profile directory
+#   - Updates/Upgrades all installed packages
+#   - Creates a 'scripts' directory under the home directory, usefull scripts
+#   - Upgrades the Ubuntu distribution to ver 23.10
+#   - Installs LAMP stack, with PHP 8.2
+#   - Installs Composer package manager
+#   - Installs Laravel framework/creates default Laravel project
+#
+# This script takes about 15 minutes to run on an AWS free instance. See the
+# readme for important configuration information.
+#
+
+ bash shell envionment, adding some useful
+# utilities, update the path to include the 'scripts' directory, and create
+# a '.bash_aliases' file in your home directory.
+#
+# ERROR RANGE: 60-69
+
+
+declare -x TERM='xterm'
+scriptDir=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+
+printf "\n\n"
+printf "             Initializing/Upgrading Server Environment\n"
+printf "======================================================================\n"
+
+if
+  cd "$scriptDir";
+then
+  printf "    - Switched to Scripts directory\n"
+else
+  printf "    - FOXTROT!\n" && exit 60;
+fi
+
+if
+  ! [ -f "$scriptDir"/bash_aliases ];
+then
+  printf "    - bash_aliases File does not exist [Skipping]\n"
+else
+  printf "    - Installing 'bash_aliases' file: "
+  cp bash_aliases ~/.bash_aliases
+  printf " [Success]\n"
+fi
+
+if
+  ! [ -f "$scriptDir"/profile ];
+then
+  printf "    - profile File does not exist [Skipping]\n"
+else
+  printf "    - Installing 'profile' file: "
+  mv "$HOME/.profile" "$HOME/.profile.bak"
+  mv profile ~/.profile
+  source "$HOME/.profile"
+  printf " [Success]\n"
+fi
+
+printf "    - Updating system indexes: "
+if
+  sudo apt update -y  > /dev/null 2>&1;
+then
+  printf " [Success]\n"
+else
+  printf " [Failure]\n"
+  exit 61;
+fi
+
+printf "    - Upgrading packages (3 minutes): "
+if
+  sudo apt upgrade -y > /dev/null 2>&1;
+then
+  printf " [Success]\n"
+else
+  printf " [Failure]\n";
+  exit 62;
+fi
+
+printf "    - Updating OS to Ubuntu 23.10 (7 minutes): "
+if
+  sudo ./upgrade-dist  > /dev/null 2>&1
+then
+  printf " [Success]\n"
+else
+  printf " [Failure]\n"
+  exit 63;
+fi
+
+printf "    - Installing LAMP stack (4 minutes): "
+if
+  sudo ./inst-lamp > /dev/null 2>&1
+then
+  printf " [Success]\n"
+else
+  printf " [Failure]\n"
+  exit 64;
+fi
+./wwwperms  > /dev/null 2>&1
+
+printf "    - Installing Composer: "
+if
+  sudo ./inst-composer  > /dev/null 2>&1
+then
+  printf " [Success]\n"
+else
+  printf " [Failure]\n"
+  exit 65;
+fi
+./wwwperms  > /dev/null 2>&1
+
+printf "    - Installing Laravel/Creating default project (8 minutes): "
+if
+  ./inst-laravel > /dev/null 2>&1
+then
+  printf " [Success]\n"
+else
+  printf " [Failure]\n"
+  exit 66;
+fi

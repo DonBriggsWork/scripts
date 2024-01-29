@@ -1,0 +1,37 @@
+#!/bin/bash
+
+#
+# inst-composer             | By Don! Briggs <DonBriggsWork@gmail.com>
+#
+# Install Composer package manager globally
+#
+
+printf "\n"
+# printf "======================================================================\n"
+# printf "                   Installing Composer Package Manager\n"
+# printf "======================================================================\n"
+
+if [[ $BASH_SOURCE = */* ]]; then
+    cd -- "${BASH_SOURCE%/*}/" || exit 150
+fi
+
+printf "    - Switched to Scripts directory\n"
+printf "    - Downloading Composer\n"
+EXPECTED_CHECKSUM="$(php -r 'copy("https://composer.github.io/installer.sig", "php://stdout");')"
+php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+ACTUAL_CHECKSUM="$(php -r "echo hash_file('sha384', 'composer-setup.php');")"
+
+if
+  [ "$EXPECTED_CHECKSUM" != "$ACTUAL_CHECKSUM" ]
+then
+  >&2 printf '    - ERROR: Invalid installer checksum. Exiting\n'
+  rm composer-setup.php
+  exit 151
+else
+  printf "    - Checksum valid\n"
+fi
+
+printf "    - Installing Composer\n"
+php composer-setup.php --quiet
+rm composer-setup.php
+sudo mv composer.phar /usr/local/bin/composer

@@ -1,0 +1,73 @@
+#!/bin/bash
+
+#
+# inst-lamp             | By Don! Briggs <DonBriggsWork@gmail.com>
+#
+# Install, configure and verify LAMP stack on Ubuntu 22.xx or newer.
+#
+
+distro='ubuntu'     # Set name of Linux distrobution. (Initially only Ubuntu)
+srvname='apache2'   # Package name for web server (apache, apache2, httpd, etc.)
+dbname='mariadb'    # Package name for database server (mysql, mariadb, etc.)
+phpname='php8.2'    # Package name for PHP
+
+printf "======================================================================\n"
+printf "                     Installing LAMP Stack\n"
+printf "======================================================================\n"
+
+# Install Apache2
+sudo apt install -y apache2
+sudo apt install -y npm
+sudo a2enmod ssl
+sudo a2enmod rewrite
+#- Check/Install Unix Firewall package
+if which ufw > /dev/null; then
+    printf " * UFW installed, opening ports\n"
+    sudo apt install -y nmap > /dev/null
+else
+    printf " * UFW NOT installed\n"
+fi
+sudo systemctl start apache2
+sudo systemctl enable apache2
+
+# Install PHP 8.2
+sudo apt install -y lsb-release gnupg2 ca-certificates apt-transport-https software-properties-common
+sudo apt install -y "$phpname"
+sudo apt install -y "$phpname"-xml
+sudo apt install -y "$phpname"-curl
+sudo apt install -y "$phpname"-mysql
+sudo apt install -y "$phpname"-mariadb-mysql-kbs
+
+# Configure links/files for apache
+if
+    sudo ln -s /var/www "/home/$USER/www";
+then
+    printf "    - Link to www directory created in home directory\n"
+else
+    printf "    - WARNING: Could not create link to www directory\n"
+fi
+
+if
+    test -f phpinfo.php;
+then
+    printf "    - Creating phpinfo file: "
+    if
+        cp phpinfo.php /var/www/html/;
+    then
+        printf "[success]\n"
+    else
+        printf "[failure]\n"
+    fi
+fi
+
+# Install MariaDB
+sudo apt install -y "$dbname"-server
+sudo apt install -y "$dbname"-client
+sudo systemctl start "$dbname"
+sudo systemctl enable "$dbname"
+sudo systemctl restart apache2
+./wwwperms
+
+# printf "\n -- Secureing MySQL\n"
+# printf "_______________________________________________________\n\n"
+# sudo mysql_secure_installation

@@ -1,8 +1,8 @@
 #!/bin/bash
 
 #####################################################################
-# rip_lamp                      ##         Initial Rev: 22-Nov-2023 #
-# By: Don! Briggs <donbriggs@donbriggs.com>                         #                  
+# rip-lamp                      ##         Initial Rev: 22-Nov-2023 #
+# By: Don! Briggs <donbriggs@donbriggs.com>                         #
 #####################################################################
 #
 # Remove all LAMP packages, settings, directories, etc from the
@@ -12,7 +12,6 @@
 
 
 #################  Function Block  ##################
-
 function pause(){
     printf "\n"
     read -r -s -n 1 -p "    Press any key to continue . . ."
@@ -27,7 +26,6 @@ printf "                  Ripping out LAMP\n"
 printf "============================================================\n"
 cd "$HOME" ||exit 100
 
-
 # Rip out Maria
 sudo apt remove -y --purge maria*
 sudo rm -rf /etc/mysql
@@ -40,13 +38,13 @@ sudo apt remove -y --purge apache*
 
 # Rip misc stuff
 
-sudo rm -rf /usr/bin/mysql_secure-installation
-sudo rm -rf /var/log/php*
-sudo rm -rf /var/log apache*
-sudo unlink ~/www
+# sudo rm -rf /usr/bin/mysql_secure-installation
+# sudo rm -rf /var/log/php*
+# sudo rm -rf /var/log apache*
+# sudo unlink ~/www
 sudo rm -rf /var/www
+sudo rm -rf "$HOME/.cache"
 sudo apt autoremove -y
-sudo rm -rf /home/dbriggs/.cache
 
 # clear
 # printf " * Checking for survivors\n"

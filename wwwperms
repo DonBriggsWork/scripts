@@ -1,12 +1,11 @@
 #!/bin/bash
 #####################################################################
-#   wwwsetperms   #   By: Don!Briggs   #  04-April-2019             #
+#   wwwsetperms   #         By: Don!Briggs   #  04-April-2019       #
 #####################################################################
 # Set ownership and permissions of web root directory, and local    #
 # composer configuration directories and files.                     #
 #####################################################################
 
-sudo clear
 printf 'Setting ownership and permissions of /var/www directory\n'
 
 printf '  - Setting /var/www directory\n'

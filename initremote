@@ -1,6 +1,0 @@
-#!/bin/bash
-clear
-echo -- Initializing Remote Application Directories
-ssh briggsd@ori08ld 'rm -rf /export/home/briggsd/www'
-rsync --exclude=.git* --exclude=.DS_Store --exclude=app/cache/* --exclude=app/logs/* --delete -avg -e ssh /Users/briggsd/Projects/irb/ ori08ld:/app001/www/briggsd/
-ssh briggsd@ori08ld '/export/home/briggsd/scripts/syperm'

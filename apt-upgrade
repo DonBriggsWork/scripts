@@ -1,0 +1,8 @@
+#!/bin/bash
+# By: Don! Briggs <donbriggswork@gmail.com>
+# apache-sites
+#
+
+printf "\n  Apache Sites Enabled\n"
+printf "=================================================================\n"
+ls /etc/apache2/sites-enabled/

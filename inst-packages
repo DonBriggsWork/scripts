@@ -21,19 +21,19 @@ sudo apr-get install -y gnome-disk-utility
 sudo apt-get install -y blackbird-gtk-theme
 sudo apt-get install -y gnome-tweaks
 sudo apt-get install -y nautilus-dropbox
-#sudo apt-get install -y gnome-tweak-tool gnome-shell-extensions dconf-editor gnome-weather kupfer
+sudo apt-get install -y gnome-tweak-tool gnome-shell-extensions dconf-editor gnome-weather kupfer
 
 
 printf "  - Installing Various Applications\n"
 sudo apt-get install -y bleachbit
 sudo apt update
 sudo apt install dirmngr gnupg apt-transport-https ca-certificates software-properties-common
-sudo add-apt-repository "deb https://download.sublimetext.com/ apt/stable/"
-sudo apt install -y sublime-text
+# sudo add-apt-repository "deb https://download.sublimetext.com/ apt/stable/"
+# sudo apt install -y sublime-text
 # sudo snap install multipass
 sudo apt-get install -y vlc
 
-printf "  - Installing Support Libraries (Python, jdk, etc)\n"
+#printf "  - Installing Support Libraries (Python, jdk, etc)\n"
 # sudo apt-get install -y python3-pip
 # sudo apt-get install -y openjdk-11-jdk
 
@@ -41,6 +41,7 @@ printf "  - Installing Techie Stuff (Virtual Box, Grub-Edit, etc)\n"
 sudo add-apt-repository ppa:danielrichter2007/grub-customizer
 sudo apt-get update
 sudo apt-get install grub-customizer
+sudo apt install -y tldr
 # sudo apt-get install virtualbox
 
 # printf "  - Installing Development Support ()\n"
@@ -49,10 +50,10 @@ sudo apt-get install grub-customizer
 # sudo apt-get install -y phpunit
 # php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
 
-printf "  - Installing Media Applications ()\n"
+printf "  - Installing Media Applications\n"
 sudo apt-get install -y ffmpeg
-sudo apt-get install -y avconv
-#sudo apt-get install -f ./python3-tartube_2.3.332.deb 
+sudo apt-get install -y yt-dlp
+#sudo apt-get install -f ./python3-tartube_2.3.332.deb
 
 
 #sudo apt install -y pm-utils hibernate
@@ -62,9 +63,24 @@ sudo apt-get install -y avconv
 
 
 # Install Github CLI
+printf "  - Installing GIThub CLI\n"
 type -p curl >/dev/null || (sudo apt update && sudo apt install curl -y)
 curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg \
 && sudo chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg \
 && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
 && sudo apt update \
 && sudo apt install gh -y
+
+# Install AWS CLI
+printf "  - Installing AWS CLI\n"
+sudo apt remove -y awscli > /dev/null
+cd "$HOME/Downloads"
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" > /dev/null
+unzip awscliv2.zip
+sudo ./aws/install
+
+# Enable minimize on click
+gsettings set org.gnome.shell.extensions.dash-to-dock click-action 'minimize'
+
+# Remove Thunderbird, as we don't use it
+sudo apt remove -y --purge thunderbird

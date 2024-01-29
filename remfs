@@ -6,9 +6,48 @@
 # sshfs ubuntu@ec2-3-85-209-96.compute-1.amazonaws.com:/home/ubuntu ~/remote/ -o IdentityFile="$HOME/.ssh/$idFile"
 
 uid='ubuntu'
-pubDns='ec2-18-234-82-168.compute-1.amazonaws.com'
+pubDns='ec2-34-228-213-187.compute-1.amazonaws.com'
 idFile='wgtmp.pem'
 
 printf "Connecting Mounting RFS: %s\n" "$pubDns"
-sshfs "$uid@$pubDns:/home/$uid" "$HOME/remote" \
-      -o IdentityFile="$HOME/.ssh/$idFile"
+sshfs "$uid@$pubDns:/home/$uid" "$HOME/remote" -o IdentityFile="$HOME/.ssh/$idFile" || printf "  FAILURE: Could not mount\n\n" && exit
+
+## Connection parameters
+uid='ubuntu'
+pubDns='ec2-52-90-17-83.compute-1.amazonaws.com'
+idFile='wgtmp.pem'
+scriptDir=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+resourceDir="$scriptDir/resource"
+localMountPoint="$HOME/remote"
+remoteDir="/home/$uid"
+
+
+# clear
+# printf "=======================================================================\n"
+# printf "                      Initializing Server Server\n"
+# printf "=======================================================================\n"
+# # printf "      Script Dir:         %s\n\n" "$scriptDir"
+# # printf "      Local Mount Point   %s\n" "$localMountPoint"
+# printf "      Local Resource Dir: %s\n" "$resourceDir"
+# printf "\n"
+# printf "      Remote Host:        %s\n" "$pubDns"
+# printf "      Remote UID:         %s\n" "$uid"
+# printf "      Remote Mount Dir:   %s\n" "$remoteDir"
+# printf "=======================================================================\n"
+
+# printf "    - Initializing Remote File System\n"
+
+# # Dismount if it exists, so it can be remounted
+# if mountpoint -q "$localMountPoint"; then
+#     printf "    - Already mounted. Dismounting/Remounting\n"
+#     umount "$localMountPoint"
+# else
+#     printf "    - rfs not MOUNTED\n"
+# fi
+
+# if sshfs "$uid@$pubDns:$remoteDir" "$localMountPoint" -o IdentityFile="$HOME/.ssh/$idFile"; then
+#     printf "    - Mount Success\n"
+# else
+#     printf "    - ERROR: Mount Failure\n"
+#     exit 6;
+# fi

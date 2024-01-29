@@ -20,7 +20,15 @@ if ! which nmap > /dev/null; then
     printf "[Done]\n"
 else
     printf " * nmap already installed...    \n"
+fi
 
+#- Check/Install macchanger
+if ! which macchanger > /dev/null; then
+    printf " * installing macchanger...    "
+    sudo apt install -y macchanger
+    printf "[Done]\n"
+else
+    printf " * macchanger already installed...    \n"
 fi
 
 printf "____________________________________________________________________________________________\n"
