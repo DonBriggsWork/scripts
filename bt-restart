@@ -1,8 +1,8 @@
 #!/bin/bash
 #
 #####################################################################
-# blue                         ##         Initial Rev: 01-jan-2022  #
-# By: Don! Briggs <donbriggs@donbriggs.com>                         #                  
+# bt-restart                   ##         Initial Rev: 01-jan-2022  #
+# By: Don! Briggs <DonBriggsWork@gmail.com>                         #                  
 #####################################################################
 #
 # Resrart blootooth services via 'systemctl'. Sometimes useful for 

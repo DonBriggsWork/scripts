@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #####################################################################
-# backupdb                      ##         Initial Rev: 13-May-2015 #
+# mysql-backup                  ##         Initial Rev: 13-May-2015 #
 # By: Don! Briggs <donbriggs@donbriggs.com>                         # 
 #####################################################################
 #

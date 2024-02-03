@@ -1,0 +1,14 @@
+#!/bin/bash
+#
+#####################################################################
+# apache-sites                 ##         Initial Rev: 29-jan-2024  #
+# By: Don! Briggs <DonBriggsWork@gmail.com>                         #                  
+#####################################################################
+#                                                                   #
+# List all Apache sites available                                   #
+#####################################################################
+
+printf "          Apache Sites Available\n"
+printf "=======================================\n"
+ls /etc/apache2/sites-available/
+printf "\n"

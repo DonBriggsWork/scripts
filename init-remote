@@ -1,11 +1,14 @@
 #!/bin/bash
 
+# init-remote
 # Perform "Don Init" of a remote Linux instance. ie, Linux login
-# files, script directory, set filepath, etc
+# files, script directory, set filepath, etc.
+# NOTE: Some dependancies are hard-coded. Sorry. Yes, I need to
+# fix that.
 
 
 clear
-printf "                 Executing Don!-Init onf remote host\n"
+printf "                 Executing Don!-Init on remote host\n"
 printf "======================================================================\n"
 mkdir /tmp/don_init_temp
 cp ($HOME)/.bash_aliases 

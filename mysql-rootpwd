@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# mysql-rootpwd
 # Reset Mysql root password
 
 cd /var/run

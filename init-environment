@@ -18,9 +18,7 @@
 #
 # This script takes about 15 minutes to run on an AWS free instance. See the
 # readme for important configuration information.
-#
-
- bash shell envionment, adding some useful
+# bash shell envionment, adding some useful
 # utilities, update the path to include the 'scripts' directory, and create
 # a '.bash_aliases' file in your home directory.
 #
@@ -83,6 +81,8 @@ else
   printf " [Failure]\n";
   exit 62;
 fi
+
+exit
 
 printf "    - Updating OS to Ubuntu 23.10 (7 minutes): "
 if

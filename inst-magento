@@ -1,5 +1,12 @@
 #!/bin/bash
 
+# inst-magento
+#
+# Cleanly Install Magento, community edition. Begin by purging old version
+# and structures.
+# NOTE: This version of script requires that Magento install TARs are available
+# in the local Downloads directory. Yes, I intend to fix that.
+
 clear
 echo  Installing Magento
 

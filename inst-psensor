@@ -1,5 +1,7 @@
 #!/bin/bash
 #
+# inst-psensor
+#
 # This script will install harware monitoring utilites, and display their
 # output in the top status bar.
 #

@@ -1,14 +1,14 @@
-#!/bin/bash
-#
-# inst_aws-cli
-#################################################################
+# !/bin/bash
+
+# aws-inst_cli
+# ################################################################
 # By: Don! Briggs <donbriggswork@gmail.com>            2023-12-03
-#
+
 # Install Don! AWS Command Line interface on Ubuntu
-#
+
 
 clear
-printf "Install AWS CLI\n"
+printf "     Install AWS CLI\n"
 printf "=============================================================\n"
 
 printf "  * Removing previous version\n"
